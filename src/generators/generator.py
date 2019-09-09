@@ -3,13 +3,14 @@ import tempfile
 
 
 class Generator(object):
-    def __init__(self, name):
-        self.output_defaults = {
+    def __init__(self, name, defaults):
+        self.defaults = {
             "duration": 50
         }
+        self.defaults.update(defaults)
         self.name = name
 
-    def generate(self, original_name, file_path, options):
+    def generate(self, original_name, input_path, output_dir, options):
         pass
 
     def name(self):
@@ -21,17 +22,17 @@ class Generator(object):
         emoji_name, ext = os.path.splitext(filename)
         return emoji_name
 
-    def write_gif(self, frames, name, options):
-        options = {**self.output_defaults, **options}
+    def write_gif(self, frames, output_dir, name, options):
+        options = {**self.defaults, **options}
 
         args = {
             "save_all": True,
             "append_images": frames[1:],
             "duration": int(options["duration"]),
             "loop": 0,
-            "disposal": 2
+            # "disposal": 2
         }
 
-        fp, name = tempfile.mkstemp(suffix=name, dir='/tmp/generated')
+        fp, name = tempfile.mkstemp(suffix=name, dir=output_dir)
         frames[0].save(name, **args)
         return name

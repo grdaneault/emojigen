@@ -1,16 +1,21 @@
 import React from 'react';
+import {BrowserRouter as Router, Route, Link} from "react-router-dom"
 import EmojiDropper from './components/EmojiDropper'
-import logo from './logo.svg';
+import EmojiEditor from "./components/EmojiEditor";
 import './App.css';
 
 function App() {
     return (
-        <div className="App">
-            <header className="App-header">
-                EmojiGen
-            </header>
-            <EmojiDropper/>
-        </div>
+        <Router>
+            <div className="App">
+                <header className="App-header">
+                    <Link to="/">EmojiGen</Link>
+                </header>
+            </div>
+
+            <Route path="/" exact component={EmojiDropper} />
+            <Route path="/editor/:id" component={EmojiEditor} />
+        </Router>
     );
 }
 

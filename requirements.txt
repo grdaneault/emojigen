@@ -1,5 +1,5 @@
 Flask
 requests
 Pillow
-numpy
-colour-science
+redis
+flask-cors

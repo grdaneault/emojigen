@@ -1,58 +1,49 @@
-import React, { Component, Fragment } from 'react'
+import React, {Component} from 'react'
 import Dropzone from 'react-dropzone'
-
+import API from '../api';
+import axios from 'axios'
+import { withRouter } from 'react-router-dom';
 
 class EmojiDropper extends Component {
     constructor(props) {
-        super(props)
+        super(props);
 
         this.state = {
             files: [],
         };
     }
 
+    onDrop = (files) => {
+        const uploads = files.map(image => {
+            console.log("dropped!");
+            const formData = new FormData();
+            formData.append("emoji", image);
+            return API.post("/api/v1/emoji", formData).then(resp => {
+                console.log("Emoji uploaded", resp);
+                this.props.history.push(`/editor/${resp.data.id}`);
+            });
+        });
+        axios.all(uploads).then(() => {
+            console.log('finished uploads');
+        })
+    };
+
     render() {
 
-        const previewStyle = {
-            display: 'inline',
-            width: 100,
-            height: 100,
-        };
-
         return <div>
-            <Dropzone onDrop={this.onDrop} accept="image/*">
+            <Dropzone onDrop={this.onDrop}>
                 {({getRootProps, getInputProps}) => (
                     <section>
                         <div {...getRootProps()}>
                             <input {...getInputProps()} />
-                            <p>Drag some emoji here!</p>
+                            <p>Upload an emoji</p>
                         </div>
                     </section>
                 )}
             </Dropzone>
 
-            {this.state.files.length > 0 &&
-            <Fragment>
-                <h3>Previews</h3>
-                {this.state.files.map((file) => (
-                    <img
-                        alt="Preview"
-                        key={file.preview}
-                        src={file.preview}
-                        style={previewStyle}
-                    />
-                ))}
-            </Fragment>
-            }
         </div>
-    }
-
-    onDrop = (files) => {
-        console.log(files);
-        this.setState({
-            files: this.state.files.concat(files),
-        });
     }
 }
 
-export default EmojiDropper
+export default withRouter(EmojiDropper);

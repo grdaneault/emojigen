@@ -1,39 +1,30 @@
-import os
-from PIL import Image
 import random
 
+from PIL import Image
 
-def intensifies(emoji_file, amount):
-    last = os.path.basename(emoji_file)
-    emoji_name, ext = os.path.splitext(last)
-
-    source = Image.open(emoji_file)
-    frames = []
-    for color_hex in range(6):
-        frame = source.copy()
-        canvas = Image.new("RGBA", frame.size, color=(255, 255, 255, 255))
-        canvas.paste(frame, (random.randrange(-amount, amount), random.randrange(-amount // 4, amount // 4)), mask=frame)
-        frames.append(canvas)
-
-    args = {
-        "save_all": True,
-        "append_images": frames[1:],
-        "duration": 30,
-        "loop": 0,
-        "disposal": 2
-    }
-
-    frames[0].save(f'../output/{emoji_name}_intensifies.{amount}.gif', **args)
-
-    with open("../output/intensifies_log.html", "a") as log:
-        log.write(f'<img src="{emoji_name}_intensifies.{amount}.gif" /> {amount}<br />')
+from generators.generator import Generator
 
 
-try:
-    os.remove("../output/intensifies_log.html")
-except:
-    pass
+class IntensifiesGenerator(Generator):
 
-for emoji in ['merged', 'bolt']:
-    for amount in range(3, 15, 2):
-        intensifies(f"/home/greg/dev/emoji/custom_emoji/img/{emoji}.png", amount)
+    def __init__(self):
+        super().__init__('intensifies', defaults={
+            "intensity": 7
+        })
+
+    def generate(self, original_name, input_path, output_dir, options):
+        options = {**self.defaults, **options}
+        intensity = int(options['intensity'])
+
+        emoji_name = Generator.get_emoji_name_from_file(original_name)
+        source = Image.open(input_path).convert("RGBA")
+        frames = []
+        for _ in range(6):
+            frame = source.copy()
+            canvas = Image.new("RGBA", frame.size, color=(255, 255, 255, 255))
+            canvas.paste(frame,
+                         (random.randrange(-intensity, intensity), random.randrange(-intensity // 4, intensity // 4)),
+                         mask=frame)
+            frames.append(canvas)
+
+        return self.write_gif(frames, output_dir, emoji_name + ".gif", options), f'{original_name}_intensifies'
