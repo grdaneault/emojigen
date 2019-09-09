@@ -5,7 +5,7 @@ A helpful tool to quickly generate emojis!
 
 Generates customizable variants of existing emojis like `:emoji_intensifies:` or `:party_emoji:`
 
-demo at: [emojigen.greggernaut.com](emojigen.greggernaut.com)
+demo at: [http://emojigen.greggernaut.com](http://emojigen.greggernaut.com)
 
 Known Issues
 ------------
