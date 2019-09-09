@@ -19,7 +19,7 @@ class Party extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tolerance: 300,
+            tolerance: 10,
             target_color: '#000000',
             emoji_id: this.props.id,
             url: null,
@@ -95,7 +95,7 @@ class Party extends Component {
                 <Slider
                     min={1}
                     max={500}
-                    step={1}
+                    step={5}
                     defaultValue={this.state.tolerance}
                     onChange={this.setTolerance.bind(this)}
                     aria-labelledby="tolerance-label"

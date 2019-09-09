@@ -9,12 +9,13 @@ function App() {
         <Router>
             <div className="App">
                 <header className="App-header">
-                    <Link to="/">EmojiGen</Link>
+                    <Link to="/" className="App-link">EmojiGen</Link>
                 </header>
             </div>
-
-            <Route path="/" exact component={EmojiDropper} />
-            <Route path="/editor/:id" component={EmojiEditor} />
+            <div className="Body">
+                <Route path="/" exact component={EmojiDropper} />
+                <Route path="/editor/:id" component={EmojiEditor} />
+            </div>
         </Router>
     );
 }
