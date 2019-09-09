@@ -10,7 +10,7 @@ class Intensifies extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            intensity: 1,
+            intensity: 7,
             emoji_id: this.props.id,
             url: null,
             name: 'Intensifies',
