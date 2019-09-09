@@ -13,7 +13,8 @@ class Intensifies extends Component {
             intensity: 1,
             emoji_id: this.props.id,
             url: null,
-            name: 'Intensifies'
+            name: 'Intensifies',
+            loading: true
         }
     }
 
@@ -24,16 +25,22 @@ class Intensifies extends Component {
             .then(resp => {
                 const {url, name} = resp.data;
                 console.log(API.defaults.baseURL + url);
-                this.setState({url: API.defaults.baseURL + url, name})
+                this.setState({
+                    loading: false,
+                    url: API.defaults.baseURL + url,
+                    name
+                });
             });
     }
 
     setIntensity = debounce((event, intensity) => {
+        this.setState({loading: true});
         API.post(`/api/v1/emoji/${this.state.emoji_id}/intensifies`, {
             intensity: intensity
         }).then(resp => {
             const {url} = resp.data;
             this.setState({
+                loading: false,
                 intensity: intensity,
                 url: API.defaults.baseURL + url
             });
@@ -58,7 +65,7 @@ class Intensifies extends Component {
             </Container>
         );
 
-        return <EditorCard name={this.state.name} url={this.state.url} controls={controls}/>
+        return <EditorCard loading={this.state.loading} name={this.state.name} url={this.state.url} controls={controls}/>
     }
 }
 

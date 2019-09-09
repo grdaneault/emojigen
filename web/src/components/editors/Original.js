@@ -23,7 +23,7 @@ class Original extends Component {
     }
 
     render() {
-        return <EditorCard name={this.state.name} url={this.state.url}/>
+        return <EditorCard loading={!this.state.url} name={this.state.name} url={this.state.url}/>
     }
 }
 

@@ -19,6 +19,7 @@ class Party extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading: true,
             tolerance: 10,
             target_color: '#000000',
             emoji_id: this.props.id,
@@ -28,28 +29,30 @@ class Party extends Component {
     }
 
     componentDidMount() {
-        const body = {
+        API.post(`/api/v1/emoji/${this.state.emoji_id}/party`, {
             tolerance: this.state.tolerance,
             target_color: this.state.target_color
-        };
-        console.log(body);
-        API.post(`/api/v1/emoji/${this.state.emoji_id}/party`, body)
+        })
             .then(resp => {
                 const {url, name} = resp.data;
                 console.log(API.defaults.baseURL + url);
-                this.setState({url: API.defaults.baseURL + url, name})
+                this.setState({
+                    loading: false,
+                    url: API.defaults.baseURL + url,
+                    name
+                });
             });
     }
 
     setTolerance = debounce((event, tolerance) => {
-        const body = {
+        this.setState({loading: true});
+        API.post(`/api/v1/emoji/${this.state.emoji_id}/party`, {
             tolerance: tolerance,
             target_color: this.state.target_color
-        };
-        console.log(body);
-        API.post(`/api/v1/emoji/${this.state.emoji_id}/party`, body).then(resp => {
+        }).then(resp => {
             const {url} = resp.data;
             this.setState({
+                loading: false,
                 tolerance: tolerance,
                 url: API.defaults.baseURL + url
             });
@@ -58,17 +61,18 @@ class Party extends Component {
 
     setTargetColor = debounce((target_color) => {
         if (!target_color) {
+            // closing the widget seems to send undefined, don't do anything with that event.
             return;
         }
 
-        const body = {
+        this.setState({loading: true});
+        API.post(`/api/v1/emoji/${this.state.emoji_id}/party`, {
             tolerance: this.state.tolerance,
             target_color: target_color
-        };
-        console.log(target_color, body);
-        API.post(`/api/v1/emoji/${this.state.emoji_id}/party`, ).then(resp => {
+        }).then(resp => {
             const {url} = resp.data;
             this.setState({
+                loading: false,
                 target_color: target_color,
                 url: API.defaults.baseURL + url
             });
@@ -104,7 +108,7 @@ class Party extends Component {
             </Container>
         );
 
-        return <EditorCard name={this.state.name} url={this.state.url} controls={controls}/>
+        return <EditorCard loading={this.state.loading} name={this.state.name} url={this.state.url} controls={controls}/>
     }
 }
 
