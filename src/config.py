@@ -23,3 +23,9 @@ class WindowsConfig(Config):
 
     def __init__(self):
         super().__init__()
+
+
+class DOConfig(Config):
+    UPLOAD_FOLDER = '/tmp/emojigen'
+    GENERATED_FOLDER = '/tmp/emojigen'
+    REDIS_HOST = 'redis://localhost:6379'
