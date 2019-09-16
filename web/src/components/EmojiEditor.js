@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Intensifies from "./editors/Intensifies";
 import Original from "./editors/Original";
 import Party from "./editors/Party";
+import Overlay from "./editors/Overlay";
 
 const useStyles = makeStyles({
     root: {
@@ -25,6 +26,7 @@ export default function EmojiEditor({match}) {
                 <Original id={match.params.id}/>
                 <Intensifies id={match.params.id}/>
                 <Party id={match.params.id}/>
+                <Overlay id={match.params.id}/>
             </Grid>
         </div>
     )

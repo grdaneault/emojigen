@@ -7,10 +7,10 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
 from config import WindowsConfig
-from generators import PartyGenerator, IntensifiesGenerator, Generator
+from generators import PartyGenerator, IntensifiesGenerator, Generator, OverlayGenerator
 from model import Metadata, MetadataService
 
-KNOWN_GENERATORS = {gen.name: gen for gen in [PartyGenerator(), IntensifiesGenerator()]}
+KNOWN_GENERATORS = {gen.name: gen for gen in [PartyGenerator(), IntensifiesGenerator(), OverlayGenerator()]}
 
 app = Flask(__name__)
 app.config.from_object(WindowsConfig())

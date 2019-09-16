@@ -1,11 +1,13 @@
 import os
 import tempfile
 
+from PIL import Image
+
 
 class Generator(object):
     def __init__(self, name, defaults):
         self.defaults = {
-            "duration": 50
+            "frame_duration": 50
         }
         self.defaults.update(defaults)
         self.name = name
@@ -15,6 +17,19 @@ class Generator(object):
 
     def name(self):
         return self.name
+
+    @staticmethod
+    def load_image(input_path):
+        img = Image.open(input_path).convert("RGBA")
+        if img.width > 128 or img.height > 128:
+            img.thumbnail((128, 128))
+
+        canvas = Image.new("RGBA", (128, 128), (255, 255, 255))
+        offset = ((128 - img.width) // 2, (128 - img.height) // 2)
+        print(f"Original is {img.width}x{img.height}, pasting to {offset}")
+        canvas.paste(img, offset)
+        return canvas
+
 
     @staticmethod
     def get_emoji_name_from_file(original_name):
@@ -28,7 +43,7 @@ class Generator(object):
         args = {
             "save_all": True,
             "append_images": frames[1:],
-            "duration": int(options["duration"]),
+            "duration": int(options["frame_duration"]),
             "loop": 0,
             # "disposal": 2
         }

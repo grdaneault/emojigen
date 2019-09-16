@@ -37,7 +37,8 @@ class PartyGenerator(Generator):
         options = {**self.defaults, **options}
 
         emoji_name = Generator.get_emoji_name_from_file(original_name)
-        source = Image.open(input_path).convert("RGBA")
+
+        source = self.load_image(input_path)
         target_color = ImageColor.getrgb(options['target_color'])
         frames = []
         for color_hex in options['colors']:

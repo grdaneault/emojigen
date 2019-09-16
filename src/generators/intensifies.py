@@ -17,7 +17,8 @@ class IntensifiesGenerator(Generator):
         intensity = int(options['intensity'])
 
         emoji_name = Generator.get_emoji_name_from_file(original_name)
-        source = Image.open(input_path).convert("RGBA")
+        source = self.load_image(input_path)
+
         frames = []
         for _ in range(6):
             frame = source.copy()
