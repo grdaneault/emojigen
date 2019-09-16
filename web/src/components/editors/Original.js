@@ -17,7 +17,6 @@ class Original extends Component {
         API.get(`/api/v1/emoji/${this.state.emoji_id}`)
             .then(resp => {
                 const {url, name} = resp.data;
-                console.log(API.defaults.baseURL + url);
                 this.setState({url: API.defaults.baseURL + url, name})
             });
     }

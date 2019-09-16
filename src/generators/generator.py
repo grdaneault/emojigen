@@ -26,7 +26,6 @@ class Generator(object):
 
         canvas = Image.new("RGBA", (128, 128), (255, 255, 255))
         offset = ((128 - img.width) // 2, (128 - img.height) // 2)
-        print(f"Original is {img.width}x{img.height}, pasting to {offset}")
         canvas.paste(img, offset)
         return canvas
 

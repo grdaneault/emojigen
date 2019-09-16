@@ -1,7 +1,6 @@
 import React, {Component, useMemo} from 'react'
 import Dropzone from 'react-dropzone'
 import API from '../api';
-import axios from 'axios'
 import {withRouter} from 'react-router-dom';
 
 const baseStyle = {
@@ -42,18 +41,13 @@ class EmojiDropper extends Component {
     }
 
     onDrop = (files) => {
-        const uploads = files.map(image => {
-            console.log("dropped!");
+        files.map(image => {
             const formData = new FormData();
             formData.append("emoji", image);
             return API.post("/api/v1/emoji", formData).then(resp => {
-                console.log("Emoji uploaded", resp);
                 this.props.history.push(`/editor/${resp.data.id}`);
             });
         });
-        axios.all(uploads).then(() => {
-            console.log('finished uploads');
-        })
     };
 
     render() {

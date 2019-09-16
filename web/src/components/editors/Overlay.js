@@ -36,7 +36,6 @@ class Overlay extends Component {
         })
             .then(resp => {
                 const {url, name} = resp.data;
-                console.log(API.defaults.baseURL + url);
                 this.setState({
                     loading: false,
                     url: API.defaults.baseURL + url,
@@ -90,7 +89,7 @@ class Overlay extends Component {
                     <MenuItem value="loving.gif">Hearts</MenuItem>
                 </Select>
                 <div className={classes.margin} />
-                <FrameDurationSlider delay={this.state.frameDuration} onChange={this.setFrameDuration} />
+                <FrameDurationSlider frameDuration={this.state.frameDuration} onChange={this.setFrameDuration} />
             </Container>
         );
 

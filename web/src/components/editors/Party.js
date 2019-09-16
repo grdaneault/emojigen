@@ -35,7 +35,6 @@ class Party extends Component {
         })
             .then(resp => {
                 const {url, name} = resp.data;
-                console.log(API.defaults.baseURL + url);
                 this.setState({
                     loading: false,
                     url: API.defaults.baseURL + url,
