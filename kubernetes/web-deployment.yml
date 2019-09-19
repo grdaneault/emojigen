@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  labels:
+    name: web
+spec:
+  selector:
+    matchLabels:
+      app: web
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: localhost:5000/emojigen/web:latest
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always

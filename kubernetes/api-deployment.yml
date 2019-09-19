@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:
+    name: api
+spec:
+  selector:
+    matchLabels:
+      app: api
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: localhost:5000/emojigen/api:latest
+          env:
+            - name: REDIS_HOST
+              value: "redis-master"
+            - name: DATA_DIR
+              value: "/data/emojigen/"
+          volumeMounts:
+            - name: emojigen-image-volume-mount
+              mountPath: "/data/emojigen/"
+          ports:
+            - containerPort: 5000
+      volumes:
+        - name: emojigen-image-volume-mount
+          persistentVolumeClaim:
+            claimName: emojigen-image-pvc
+      restartPolicy: Always
