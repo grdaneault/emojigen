@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, send_file, abort, url_for
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
-from config import WindowsConfig, DOConfig
+from config import Config
 from generators import PartyGenerator, IntensifiesGenerator, Generator, OverlayGenerator
 from model import Metadata, MetadataService
 
@@ -14,14 +14,10 @@ KNOWN_GENERATORS = {gen.name: gen for gen in [PartyGenerator(), IntensifiesGener
 
 app = Flask(__name__)
 
-if os.getenv('FLASK_CONF', 'DO_CONFIG') == 'DO_CONFIG':
-    config = DOConfig()
-else:
-    config = WindowsConfig()
-app.config.from_object(config)
+app.config.from_object(Config())
 CORS(app)
 
-redis_client = redis.from_url(app.config['REDIS_HOST'])
+redis_client = redis.from_url(app.config['REDIS_CONNECTION_STR'])
 metadata = MetadataService(redis_client)
 
 

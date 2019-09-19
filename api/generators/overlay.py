@@ -25,7 +25,7 @@ class OverlayGenerator(Generator):
             raise ValueError("Unknown overlay " + overlay_file)
         overlay_name = OverlayGenerator.ALLOWED_OVERLAYS[overlay_file]
 
-        overlay = Image.open(f"../resources/{overlay_file}")
+        overlay = Image.open(f"resources/{overlay_file}")
         emoji = self.load_image(input_path)
         emoji_name = Generator.get_emoji_name_from_file(original_name)
 
