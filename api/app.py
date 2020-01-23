@@ -21,6 +21,12 @@ redis_client = redis.from_url(app.config['REDIS_CONNECTION_STR'])
 metadata = MetadataService(redis_client)
 
 
+@app.route("/api/health_check", methods=["GET"])
+def health_check():
+    redis_client.ping()
+    return jsonify({"status": "up"})
+
+
 @app.route("/api/v1/emoji/<emoji_id>", methods=["GET"])
 def get_emoji(emoji_id):
     md = metadata.load(id=emoji_id)

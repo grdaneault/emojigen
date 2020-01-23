@@ -13,7 +13,10 @@ class Config(object):
         self.GENERATED_FOLDER = os.path.join(self.DATA_DIR, 'generated')
         self.REDIS_HOST = os.getenv('REDIS_HOST', self.REDIS_HOST)
         self.REDIS_PORT = os.getenv('REDIS_PORT', self.REDIS_PORT)
-        self.REDIS_CONNECTION_STR = os.getenv('REDIS_CONNECTION_STR', f'redis://{self.REDIS_HOST}:{self.REDIS_PORT}')
+        password = os.getenv('REDIS_PASSWORD', '')
+        if password:
+            password = f':{password}@'
+        self.REDIS_CONNECTION_STR = os.getenv('REDIS_CONNECTION_STR', f'redis://{password}{self.REDIS_HOST}:{self.REDIS_PORT}')
 
         print(os.listdir(self.DATA_DIR))
         try:

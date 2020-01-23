@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({
         height: 128,
         width: 128,
         margin: 'auto',
+        marginTop: 16,
         objectFit: 'contain',
         border: '2px dashed #DADADA',
         borderRadius: '5px'
