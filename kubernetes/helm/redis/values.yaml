@@ -1,0 +1,5 @@
+redis:
+  persistence:
+    existingClaim: redis-master-storage
+  cluster:
+    enabled: false
