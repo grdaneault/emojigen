@@ -1,3 +1,4 @@
+import math
 import random
 
 from PIL import Image
@@ -19,9 +20,12 @@ class IntensifiesGenerator(Generator):
         emoji_name = Generator.get_emoji_name_from_file(original_name)
         source = self.load_image(input_path)
 
+        if len(source) < 6:
+            source *= math.ceil(6 / len(source))
+
         frames = []
-        for _ in range(6):
-            frame = source.copy()
+        for frame in source:
+            frame = frame.copy()
             canvas = Image.new("RGBA", frame.size, color=(255, 255, 255, 255))
             canvas.paste(frame,
                          (random.randrange(-intensity, intensity), random.randrange(-intensity // 4, intensity // 4)),

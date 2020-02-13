@@ -1,4 +1,5 @@
 import math
+import random
 
 from PIL import Image, ImageColor
 
@@ -40,10 +41,21 @@ class PartyGenerator(Generator):
 
         source = self.load_image(input_path)
         target_color = ImageColor.getrgb(options['target_color'])
+
+        colors = options['colors']
+
+        if len(source) < len(colors):
+            source *= math.ceil(len(colors) / len(source))
+
+        colors *= math.ceil(len(source) / len(colors))
+
+        while len(colors) > len(source):
+            colors.pop(random.randint(0, len(colors)))
+
         frames = []
-        for color_hex in options['colors']:
+        for color_hex, frame in zip(colors, source):
             replacement_color = ImageColor.getrgb(color_hex)
-            frame = source.copy()
+            frame = frame.copy()
             PartyGenerator.replace_color(frame, target_color, replacement_color, options['tolerance'])
             canvas = Image.new("RGBA", frame.size, color=(255, 255, 255, 255))
             canvas.paste(frame, (0, 0), mask=frame)

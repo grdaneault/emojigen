@@ -27,6 +27,7 @@ class OverlayGenerator(Generator):
 
         overlay = Image.open(f"resources/{overlay_file}")
         emoji = self.load_image(input_path)
+        emoji = emoji[0]
         emoji_name = Generator.get_emoji_name_from_file(original_name)
 
         frames = []

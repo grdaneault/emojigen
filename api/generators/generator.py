@@ -20,15 +20,25 @@ class Generator(object):
 
     @staticmethod
     def load_image(input_path):
-        img = Image.open(input_path).convert("RGBA")
-        if img.width > 128 or img.height > 128:
-            img.thumbnail((128, 128))
+        frames = []
+        img = Image.open(input_path)
 
-        canvas = Image.new("RGBA", (128, 128), (255, 255, 255))
-        offset = ((128 - img.width) // 2, (128 - img.height) // 2)
-        canvas.paste(img, offset)
-        return canvas
+        frame_index = 0
 
+        while True:
+            if img.width > 128 or img.height > 128:
+                img.thumbnail((128, 128))
+            canvas = Image.new("RGBA", (128, 128), (255, 255, 255))
+            offset = ((128 - img.width) // 2, (128 - img.height) // 2)
+            canvas.paste(img, offset)
+            frames.append(canvas)
+
+            try:
+                frame_index += 1
+                img.seek(frame_index)
+            except Exception as e:
+                break
+        return frames
 
     @staticmethod
     def get_emoji_name_from_file(original_name):
