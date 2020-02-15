@@ -26,9 +26,12 @@ class PartyGenerator(Generator):
     def replace_color(image, source, replacement, tolerance):
         def replace(pixel):
             if PartyGenerator.distance(pixel, source) < tolerance:
-                return replacement + (pixel[3],)
-            else:
-                return pixel
+                if len(pixel) == 4:
+                    return replacement + (pixel[3],)
+                return replacement
+
+            return pixel
+
 
         data = image.getdata()
         data = [replace(d) for d in data]
@@ -58,7 +61,7 @@ class PartyGenerator(Generator):
             frame = frame.copy()
             PartyGenerator.replace_color(frame, target_color, replacement_color, options['tolerance'])
             canvas = Image.new("RGBA", frame.size, color=(255, 255, 255, 255))
-            canvas.paste(frame, (0, 0), mask=frame)
+            canvas.paste(frame, (0, 0), mask=frame.convert("RGBA"))
             frames.append(canvas)
 
         return self.write_gif(frames, output_dir, emoji_name + ".gif", options), f'party_{original_name}'

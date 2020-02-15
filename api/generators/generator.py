@@ -24,12 +24,15 @@ class Generator(object):
         img = Image.open(input_path)
 
         frame_index = 0
-
+        prev_frame = None
         while True:
             if img.width > 128 or img.height > 128:
                 img.thumbnail((128, 128))
-            canvas = Image.new("RGBA", (128, 128), (255, 255, 255))
+            canvas = Image.new("RGB", (128, 128), (255, 255, 255))
             offset = ((128 - img.width) // 2, (128 - img.height) // 2)
+            if prev_frame:
+                canvas.paste(prev_frame, offset)
+            prev_frame = canvas
             canvas.paste(img, offset)
             frames.append(canvas)
 

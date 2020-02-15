@@ -45,7 +45,7 @@ class OverlayGenerator(Generator):
             # cropped_frame = fire_frame.crop((0, 0, emoji_w, emoji_h))
             overlay_frame.thumbnail(canvas.size)
             overlay_frame = overlay_frame.convert('RGBA')
-            canvas.paste(emoji, (0, 0), mask=emoji)
+            canvas.paste(emoji, (0, 0), mask=emoji.convert("RGBA"))
 
             offset = ((canvas.width - overlay_frame.width) // 2, (canvas.height - overlay_frame.height) // 2)
             if overlay_name == 'burning':

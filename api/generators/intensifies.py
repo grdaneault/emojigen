@@ -27,9 +27,9 @@ class IntensifiesGenerator(Generator):
         for frame in source:
             frame = frame.copy()
             canvas = Image.new("RGBA", frame.size, color=(255, 255, 255, 255))
-            canvas.paste(frame,
+            canvas.paste(frame.convert("RGBA"),
                          (random.randrange(-intensity, intensity), random.randrange(-intensity // 4, intensity // 4)),
-                         mask=frame)
+                         mask=frame.convert("RGBA"))
             frames.append(canvas)
 
         return self.write_gif(frames, output_dir, emoji_name + ".gif", options), f'{original_name}_intensifies'
